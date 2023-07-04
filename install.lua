@@ -80,3 +80,5 @@ download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/lib
 
 print("Installing ccpm cli...")
 download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/cli.lua", dirs.bin .. "/ccpm")
+
+os.reboot()
