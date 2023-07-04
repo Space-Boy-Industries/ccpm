@@ -62,6 +62,7 @@ local repos = read()
 if repos == "" or repos == "y" or repos == "Y" then
   print("Installing default repos...")
   local request = http.get("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/main/repo.json")
-  file.write(textutils.serializeJSON())
+  local data = request.readAll()
+  file.write(textutils.serializeJSON(data))
   file.close()
 end
