@@ -76,7 +76,7 @@ end
 
 -- install cli and lib
 print("Installing ccpm library...")
-download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/lib.lua", dirs.modules .. "/sbi/ccpm/lib.lua")
+download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/lib.lua", dirs.modules .. "/sbi/ccpm.lua")
 
 print("Installing ccpm cli...")
 download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/cli.lua", dirs.bin .. "/ccpm")
