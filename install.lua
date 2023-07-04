@@ -51,9 +51,9 @@ print("Create default startup? (Y/n)")
 local startup = read()
 if startup == "" or startup == "y" or startup == "Y" then
   print("Creating startup...")
-  local file = fs.open("/startup/ccpm.lua", "w")
-  file.write("shell.setPath(shell.path() .. \":" .. dirs.bin .. "\")")
-  file.close()
+  local startupFile = fs.open("/startup/ccpm.lua", "w")
+  startupFile.write("shell.setPath(shell.path() .. \":" .. dirs.bin .. "\")")
+  startupFile.close()
 end
 
 print("Install default repos? (Y/n)")
@@ -63,7 +63,7 @@ if repos == "" or repos == "y" or repos == "Y" then
   print("Installing default repos...")
   local request = http.get("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/main/repo.json")
   local data = request.readAll()
-  file = fs.open("/etc/ccpm/repos.json", "w")
-  file.write(textutils.serializeJSON(data))
-  file.close()
+  reposFile = fs.open("/etc/ccpm/repos.json", "w")
+  reposFile.write(textutils.serializeJSON(data))
+  reposFile.close()
 end
