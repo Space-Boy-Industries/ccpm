@@ -27,8 +27,25 @@ local dirs = {
   ["config"] = config
 }
 
+-- make sure dirs exist
+if (not fs.exists('/etc')) then
+  fs.makeDir('/etc')
+end
+
+if (not fs.exists('/etc/ccpm')) then
+	  fs.makeDir('/etc/ccpm')
+end
+
+for _, dir in pairs(dirs) do
+  if not fs.exists(dir) then
+	fs.makeDir(dir)
+  end
+end
+
 print("Saving config...")
-saveJson("/etc/ccpm/dirs.json", dirs)
+dirFile = fs.open("/etc/ccpm/dirs.json", "w")
+dirFile.write("/etc/ccpm/dirs.json", dirs)
+dirFile.close()
 
 print("Create default startup? (Y/n)")
 local startup = read()
