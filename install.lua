@@ -3,6 +3,21 @@
   -- modules: /usr/modules
   -- config: /etc
 
+function download(url, path) 
+	local request = http.get(url)
+	local data = request.readAll()
+	request.close()
+	local file = fs.open(path, "w")
+	file.write(data)
+	file.close()
+end
+
+function writeFile(path, str)
+	local file = fs.open(path, "w")
+	file.write(str)
+	file.close()
+end
+
 print("What directory should I install bin files to? (default: /usr/bin)")
 local bin = read()
 if bin == "" then
@@ -43,27 +58,25 @@ for _, dir in pairs(dirs) do
 end
 
 print("Saving config...")
-dirFile = fs.open("/etc/ccpm/dirs.json", "w")
-dirFile.write("/etc/ccpm/dirs.json", dirs)
-dirFile.close()
+writeFile("/etc/ccpm/dirs.json", textutils.serializeJSON(dirs))
 
 print("Create default startup? (Y/n)")
 local startup = read()
 if startup == "" or startup == "y" or startup == "Y" then
   print("Creating startup...")
-  local startupFile = fs.open("/startup/ccpm.lua", "w")
-  startupFile.write("shell.setPath(shell.path() .. \":" .. dirs.bin .. "\")")
-  startupFile.close()
+  writeFile("/startup/ccpm.lua", "shell.setPath(shell.path() .. \":" .. dirs.bin .. "\")")
 end
 
 print("Install default repos? (Y/n)")
 local repos = read()
-
 if repos == "" or repos == "y" or repos == "Y" then
   print("Installing default repos...")
-  local request = http.get("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/main/repo.json")
-  local data = request.readAll()
-  reposFile = fs.open("/etc/ccpm/repos.json", "w")
-  reposFile.write(textutils.serializeJSON(data))
-  reposFile.close()
+  download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/repos.json", "/etc/ccpm/repos.json")
 end
+
+-- install cli and lib
+print("Installing ccpm library...")
+download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/lib.lua", dirs.modules .. "/sbi/ccpm/lib.lua")
+
+print("Installing ccpm cli...")
+download("https://raw.githubusercontent.com/Space-Boy-Industries/ccpm/master/cli.lua", dirs.bin .. "/ccpm")
