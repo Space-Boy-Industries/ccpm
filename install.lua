@@ -52,7 +52,7 @@ local startup = read()
 if startup == "" or startup == "y" or startup == "Y" then
   print("Creating startup...")
   local file = fs.open("/startup/ccpm.lua", "w")
-  file.write("shell.setPath(shell.path() .. \"" .. dirs.bin .. "\")")
+  file.write("shell.setPath(shell.path() .. \":" .. dirs.bin .. "\")")
   file.close()
 end
 
